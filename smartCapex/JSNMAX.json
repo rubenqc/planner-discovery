@@ -1,0 +1,23 @@
+{
+    "utilizationHistory" : [
+        { "date" : "2020-08-01", "maxUtilization" : 10 },
+        { "date" : "2020-08-02", "maxUtilization" : 11 },
+        { "date" : "2020-08-03", "maxUtilization" : 14},
+        { "date" : "2020-08-04", "maxUtilization" : 70 },
+        { "date" : "2020-08-05", "maxUtilization" : 50 },
+        { "date" : "2020-08-06", "maxUtilization" : 51 },
+        { "date" : "2020-08-07", "maxUtilization" : 21 },
+        { "date" : "2020-08-08", "maxUtilization" : 11 },
+        { "date" : "2020-08-09", "maxUtilization" : 12 },
+        { "date" : "2020-08-10", "maxUtilization" : 15 },
+        { "date" : "2020-08-11", "maxUtilization" : 16 },
+        { "date" : "2020-08-12", "maxUtilization" : 30 },
+        { "date" : "2020-09-01", "maxUtilization" : 90 },
+        { "date" : "2020-09-02", "maxUtilization" : 50 },
+        { "date" : "2020-09-03", "maxUtilization" : 60 },
+        { "date" : "2020-09-04", "maxUtilization" : 30 },
+        { "date" : "2020-09-05", "maxUtilization" : 40 },
+        { "date" : "2020-09-06", "maxUtilization" : 30 },
+        { "date" : "2020-09-07", "maxUtilization" : 20 }
+    ]
+}

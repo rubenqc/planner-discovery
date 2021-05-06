@@ -1,0 +1,11 @@
+{
+  "script": "http_proxy='' https_proxy='' npm run start",
+  "--max-memory-restart": "5120M",
+  "watch": true,
+  "ignore_watch" : ["node_modules","src/storage"],
+  "watch_options": {
+    "followSymlinks": false,
+    "persistent": true
+  },
+  "name": "SmartCapex - DEV"
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="discovery-8083-dev">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="discovery-8086-dev">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="/smartCapex/node_modules" />
+            <excludedPath path="/smartCapex/src/utils/planner-db/node_modules" />
+            <excludedPath path="/smartCapexFront/node_modules" />
+            <excludedPath path="/smartCapexFront/dist/node_modules" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="discovery-83-prod">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

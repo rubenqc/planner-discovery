@@ -1,0 +1,10 @@
+{
+    "script": "http_proxy='' https_proxy='' npm run start",
+    "watch": true,
+    "ignore_watch" : ["node_modules"],
+    "watch_options": {
+      "followSymlinks": false,
+      "persistent": true
+    },
+    "name": "SmartCapexFront - DEV2"
+  }
