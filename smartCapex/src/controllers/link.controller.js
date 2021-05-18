@@ -589,7 +589,7 @@ const reporteAptAws = asyncHandler(async (req,res) => {
         if(reporteItem.ROUTER && !reporteItem.ROUTER.includes('AGG')){
             for (const routerItem of reporteItem.ROUTER.split(',')) {
                 let agregadores = new Set()
-                let response = await axios.get(`http://10.30.17.81:8084/smartcapex/api/v2/rings?site=${routerItem}`)
+                let response = await axios.get(`http://186.163.3.23:83/smartcapex/api/v2/rings?site=${routerItem}`)
                 if(response.status === 200){
                     response.data.forEach(item => {
                         item.ringRouters.forEach(subItem => agregadores.add(subItem))

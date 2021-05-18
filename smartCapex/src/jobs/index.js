@@ -71,7 +71,7 @@ const updateUtilization = async () => {
 }
 
 const getRouterNames = async  () => {
-    const urlBase = 'http://10.30.17.81:8083/api/ingtx/router'
+    const urlBase = 'http://186.163.3.23:83/api/ingtx/router'
     const { Router } = await db()
 
     try {

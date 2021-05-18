@@ -8,50 +8,35 @@ const  connection = require('../../../db/index')
 
 
 
-function validationCopies(data){
-    let incorrect = [];
-    let correct = [];
 
-    data.forEach( (row) => {
-        let repeat = false
-        let condition = false
-        correct.forEach((copy) => {
-
-            if (copy['Enlace'].trim() === row['Enlace'].trim() && copy['Instancia'] === row['Instancia']  ) {
-                repeat = true
-                incorrect.push(row)
-            }
-        })
-        if(!repeat){
-            correct.push(row)
-        }
-    })
-}
 
 async function  main(){
 
-    const wb = await XLSX.readFile(join(__dirname, '/data.xlsx'))
+    const wb = await XLSX.readFile(join(__dirname, '/proof.xlsx'))
     console.log("segundo paso")
-    let rows = await XLSX.utils.sheet_to_json(wb.Sheets['Sheet3'])
+    let rows = await XLSX.utils.sheet_to_json(wb.Sheets['Sheet1'])
+
 
     console.log('-- enlaces --')
-    //validationCopies(rows)
+    console.log(rows)
 
 
     let dataFinal = rows.map(p => {
+
         for (const prop in p) {
             if (typeof p[prop] === 'string') {
                 p[prop] = p[prop].trim()
             }
         }
 
-
-
+        let gestor = p['Medio'] === 'BH' ? 'U2000-TX' : 'U2000-Datacom';
         let status = p['Estado'] === 'OK' ? 'ok' : p['Estado'];
+        console.log(p["NE_Name"])
         return {
-
-            link: p['Enlace'].trim(),
-            instanceName: p['Instancia'].trim() || null,
+            // General keys
+            link: p['Enlace'],
+            acc_upl: "uplink",
+            instanceName: p['Instancia'] || null,
             distributionType: p['Tipo de Distribución'] || null,
             media: p['Medio'] || null,
             mediaType: p['Medio tx'] || null,
@@ -59,9 +44,9 @@ async function  main(){
             distance: p['Distancia'] || null,
             departmentCode: p['Departamento'] || null,
             documentState: true || null,
-
-            capacity: Number(p['Capacidad']) || null,
-            utilization: p['Utilización'] || null,
+            gestor: gestor || null,
+            capacity: p['Capacidad'] || null,
+            utilization: p['UTILIZACIÓN'] || null,
             modulation: p['Modulación'] || null,
             bandWidth: p['Ancho de Banda'] || null,
             bandFrequency: p['Frecuencia'] || null,
@@ -73,19 +58,19 @@ async function  main(){
             "nearEnd.name": p['NE_Name'] || null,
             "nearEnd.location.type": "Point",
             "nearEnd.location.coordinates": [p["NE Latitud"] || null,p["NE Longitud"] || null],
-            "nearEnd.antennaBrand": p['MARCA_ANTENA NE'] || null,
-            "nearEnd.antennaModel": p['MODELO_ANTENA_NE'] || null,
-            "nearEnd.diameter": p['DIAMETRO_ANTENA NE'] || null,
-            "nearEnd.radiant": p['ALTURA_RADIANTES NE'] || null,
+            "nearEnd.antennaBrand": p['NE Marca de antena'] || null,
+            "nearEnd.antennaModel": p['NE Modelo de Antena'] || null,
+            "nearEnd.diameter": p['NE Diametro de antena'] || null,
+            "nearEnd.radiant": p['NE Altura radiantes'] || null,
             // FE Keys
             "farEnd.name": p['FE_Name'] || null,
             "farEnd.code": p['FE Codigo'] || null,
             "farEnd.location.type": "Point",
             "farEnd.location.coordinates": [p["FE Latitud"] || null,p["FE Longitud"] || null],
-            "farEnd.antennaBrand": p['MARCA_ANTENA FE'] || null,
-            "farEnd.antennaModel": p['MODELO_ANTENA_FE'] || null,
-            "farEnd.diameter": p['DIAMETRO_ANTENA FE'] || null,
-            "farEnd.radiant": p['ALTURA_RADIANTES FE'] || null,
+            "farEnd.antennaBrand": p['FE Marca de antena'] || null,
+            "farEnd.antennaModel": p['FE Modelo de Antena'] || null,
+            "farEnd.diameter": p['FE Diametro de antena'] || null,
+            "farEnd.radiant": p['FE Altura radiantes'] || null,
             // New Keys
             technology: p['TECNOLOGIA'] || null,
             stationA: p['GANANCIA_ESTACION_A'] || null,
@@ -101,15 +86,15 @@ async function  main(){
     })
 
 
-    console.log(dataFinal[0])
+
 
     const { Link } = await connection(getConfig())
-    console.log("Iniciando Creación")
-
+    console.log("Iniciando creacion")
+    console.log(rows.length)
     for( let row of dataFinal){
-         await Link.cargaExcel(row)
+         await Link.create(row)
     }
-    console.log("termino la creación")
+    console.log("termino creacion")
     return
 
 }

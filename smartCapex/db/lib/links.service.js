@@ -72,7 +72,8 @@ module.exports = function setupLinks(linkModel, routerModel)  {
         return linkModel.updateMany(
             {
               link: data['link'],
-              instanceName: data['instanceName']
+              instanceName: data['instanceName'],
+                capacity: data['capacity']
             },
             {
               $set: data
