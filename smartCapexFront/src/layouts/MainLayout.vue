@@ -53,13 +53,13 @@
 
             <q-item-section>Routers</q-item-section>
          </q-item>
-          <!--          <q-item clickable v-ripple to='/sites' exact>
-                     <q-item-section avatar>
-                       <q-icon name="settings_input_antenna" />
-                     </q-item-section>
+          <q-item clickable v-ripple to='/sites' exact>
+           <q-item-section avatar>
+             <q-icon name="settings_input_antenna" />
+           </q-item-section>
 
-                     <q-item-section>Sites</q-item-section>
-                   </q-item>-->
+           <q-item-section>Sites</q-item-section>
+         </q-item>
         </q-list>
       </q-scroll-area>
 

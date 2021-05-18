@@ -79,11 +79,11 @@
               @click="openDeleteModal(props.row)"
             />
           </q-td>
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">{{ col.value }}</q-td>
+          <q-td  v-for="col in props.cols" :key="col.name" class="paint" :props="props">{{ col.value }}</q-td>
         </q-tr>
         <q-tr v-show="props.expand" :props="props" class="col-">
           <q-td colspan="100%" style="padding-left : 0">
-            <DetailLink :link="props.row" :key="props.row._id"/>
+            <DetailLink :link="props.row" :key="props.row._id" />
           </q-td>
         </q-tr>
       </template>
@@ -325,13 +325,13 @@ export default {
         },
         {
           name: "typeVisualization",
-          label: "Tipo de visualización",
+          label: "Tipo",
           field: "typeVisualization",
           align: "left",
         },
         {
           name: "stageVisualization",
-          label: "Estación de visualización",
+          label: "Estación",
           field: "stageVisualization",
           align: "left",
         }
@@ -359,6 +359,7 @@ export default {
     const body = this.bodyBuilder(this.pagination);
     this.getData(body);
   },
+
   methods: {
     // obtener datos del servidor, recibe el this.body con la paginacion y el query de busqueda
     async getData(body = {}) {
@@ -385,6 +386,7 @@ export default {
 
 
       this.loading = false;
+      setTimeout(()=> {this.paintMayorista()}, 500)
       return "ok";
     },
 
@@ -428,6 +430,19 @@ export default {
         const body = this.bodyBuilder(this.pagination, this.body);
         this.getData(body);
       }, 500);
+    },
+
+    paintMayorista(){
+      console.log("2")
+      const paint = document.querySelectorAll(".paint")
+      paint.forEach(p => {
+        if(p.textContent === "Mayorista"){
+          p.parentElement.style.background="rgba(107,229,229,0.15)"
+        }else{
+          p.parentElement.style.background="transparent"
+        }
+
+      })
     },
 
     updateSelectStatus(value) {
@@ -539,7 +554,6 @@ export default {
       this.modalConfirmDelete = true
     },
 
-
     async download(){
       /*const response = await this.$axios.get(`${this.LINKS_URL}/getdata`);
       console.log(response)
@@ -585,6 +599,20 @@ export default {
     ...mapState("links", ["LINKS_URL"]),
   },
 };
+/*console.log("1")
+function  paintMayorista(){
+  console.log("2")
+  const paint = document.querySelectorAll(".paint")
+  paint.forEach(p => {
+    if(p.textContent === "Mayorista"){
+      p.parentElement.style.background="rgba(107,229,229,0.32)"
+    }else{
+      p.parentElement.style.background="transparent"
+    }
+
+  })
+}*/
+//setInterval(() => paintMayorista(), 1000)
 </script>
 
 <style lang="sass">

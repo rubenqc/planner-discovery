@@ -40,9 +40,25 @@
                   <td class="text-left">Media</td>
                   <td class="text-right">{{link.media}}</td>
                 </tr>
+                <tr v-if="link.link">
+                  <td class="text-left">Enlace</td>
+                  <td class="text-right">{{link.link}}</td>
+                </tr>
                 <tr v-if="link.departmentCode">
                   <td class="text-left">Codigo de Departamento</td>
                   <td class="text-right">{{link.departmentCode}}</td>
+                </tr>
+                <tr v-if="link.modulation">
+                  <td class="text-left">Modulacion</td>
+                  <td class="text-right">{{link.modulation}}</td>
+                </tr>
+                <tr v-if="link.bandWidth">
+                  <td class="text-left">Ancho de Banda</td>
+                  <td class="text-right">{{link.bandWidth}}</td>
+                </tr>
+                <tr v-if="link.bandFrequency">
+                  <td class="text-left">Frecuencia de Banda</td>
+                  <td class="text-right">{{link.bandFrequency}}</td>
                 </tr>
               </tbody>
             </q-markup-table>
@@ -60,24 +76,14 @@
                   <td class="text-left">Item</td>
                   <td class="text-right">{{link.item}}</td>
                 </tr>
-                <tr v-if="link.link">
-                  <td class="text-left">Enlace</td>
-                  <td class="text-right">{{link.link}}</td>
+                  <tr v-if="link.forecastDate">
+                  <td class="text-left">Fecha de ForeCast</td>
+                  <td class="text-right">{{link.forecastDate}}</td>
                 </tr>
-              </tbody>
-              <tbody class="tblInfo">
-              <tr v-if="link.forecastDate">
-                <td class="text-left">Fecha de ForeCast</td>
-                <td class="text-right">{{link.forecastDate}}</td>
-              </tr>
-              <tr v-if="link.updatedDate">
-                <td class="text-left">Fecha de Actualización</td>
-                <td class="text-right">{{link.updatedDate}}</td>
-              </tr>
-              </tbody>
-            </q-markup-table>
-            <q-markup-table class="q-mr-lg">
-              <tbody class="tblInfo">
+                <tr v-if="link.updatedDate">
+                  <td class="text-left">Fecha de Actualización</td>
+                  <td class="text-right">{{link.updatedDate}}</td>
+                </tr>
                 <tr v-if="link.technology">
                   <td class="text-left">Tecnolgía</td>
                   <td class="text-right">{{link.technology}}</td>
@@ -86,6 +92,10 @@
                   <td class="text-left">Ganancia de estación A</td>
                   <td class="text-right">{{link.stationA}}</td>
                 </tr>
+              </tbody>
+            </q-markup-table>
+            <q-markup-table class="q-mr-lg">
+              <tbody class="tblInfo">
                 <tr v-if="link.stationB">
                   <td class="text-left">Ganancia de estación B</td>
                   <td class="text-right">{{link.stationB}}</td>
@@ -94,43 +104,40 @@
                   <td class="text-left">Tipo de trama</td>
                   <td class="text-right">{{link.typePlot}}</td>
                 </tr>
+                <tr v-if="link.freqTX">
+                  <td class="text-left">Frecuencia TX</td>
+                  <td class="text-right">{{link.freqTX}}</td>
+                </tr>
+                <tr v-if="link.freqRX">
+                  <td class="text-left">Frecuencia RX</td>
+                  <td class="text-right">{{link.freqRX}}</td>
+                </tr>
+                <tr v-if="link.typeVisualization">
+                  <td class="text-left">Tipo</td>
+                  <td class="text-right">{{link.typeVisualization}}</td>
+                </tr>
+                <tr v-if="link.stageVisualization">
+                  <td class="text-left">Estación</td>
+                  <td class="text-right">{{link.stageVisualization}}</td>
+                </tr>
               </tbody>
             </q-markup-table>
-            <q-markup-table class="q-mr-lg">
-              <tbody class="tblInfo">
-              <tr v-if="link.freqTX">
-                <td class="text-left">Frecuencia TX</td>
-                <td class="text-right">{{link.freqTX}}</td>
-              </tr>
-              <tr v-if="link.freqRX">
-                <td class="text-left">Frecuencia RX</td>
-                <td class="text-right">{{link.freqRX}}</td>
-              </tr>
-              <tr v-if="link.typeVisualization">
-                <td class="text-left">Tipo de Visualización</td>
-                <td class="text-right">{{link.typeVisualization}}</td>
-              </tr>
-              <tr v-if="link.stageVisualization">
-                <td class="text-left">Estación de Visualización</td>
-                <td class="text-right">{{link.stageVisualization}}</td>
-              </tr>
-              </tbody>
-            </q-markup-table>
+
             <template v-if="link.stageVisualization === 'Mayorista' ">
               <q-markup-table class="q-mr-lg">
                 <tbody class="tblInfo">
-                <tr v-if="link.requestNumber">
-                  <td class="text-left">Numero de solicitud</td>
-                  <td class="text-right">{{link.requestNumber}}</td>
-                </tr>
-                <tr v-if="link.services38">
-                  <td class="text-left">Servicios Mayoristas 38Ghz</td>
-                  <td class="text-right">{{link.services38}}</td>
-                </tr>
-                <tr v-if="link.address38">
-                  <td class="text-left">Dirección Clientes 38 Ghz</td>
-                  <td class="text-right">{{link.address38}}</td>
-                </tr>
+                  <tr v-if="link.requestNumber">
+                    <td class="text-left">Numero de solicitud</td>
+                    <td class="text-right">{{link.requestNumber}}</td>
+                  </tr>
+                  <tr v-if="link.services38">
+                    <td class="text-left">Servicios Mayoristas 38Ghz</td>
+                    <td class="text-right">{{link.services38}}</td>
+                  </tr>
+                  <tr v-if="link.address38">
+                    <td class="text-left">Dirección Clientes 38 Ghz</td>
+                    <td class="text-right">{{link.address38}}</td>
+                  </tr>
                 </tbody>
               </q-markup-table>
             </template>

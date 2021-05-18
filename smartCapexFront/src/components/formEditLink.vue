@@ -24,6 +24,8 @@
                   <q-input v-model="form.link" label="Enlace" />
                   <q-input v-model="form.instanceName" label="Instancia" />
                   <q-select v-model="form.gestor" :options="['U2000-TX', 'U2000-Datacom']" label="Gestor" />
+                  <q-input v-model="form.modulation" label="Modulación" />
+                  <q-input v-model="form.bandWidth" label="Ancho de Banda" />
                   <q-input
                     v-model="form.distance"
                     label="Distancia (Solo en caso de ser MV)"
@@ -32,7 +34,7 @@
                   />
                 </div>
                 <div style="width : 45%">
-                  <q-select v-model="form.media" :options="['BH', 'LH', 'FO','RENTADO-FO']" label="Tipo" />
+                  <q-select v-model="form.media" :options="['BH', 'LH', 'FO','RENTADO-FO']" label="Medio" />
                   <q-input v-model="form.action" label="Acción" />
 
                   <q-select
@@ -44,6 +46,7 @@
                   <q-input v-model="form.departmentCode" label="Codigo Dpto." />
                   <q-input v-model="form.capacity" label="Capacidad" type="Number" />
                   <q-select v-model="form.mediaType" :options="optionsMediaType" label="Medio Ing" />
+                  <q-input v-model="form.bandFrequency" label="Frecuencia de Banda" />
                 </div>
               </div>
 
@@ -139,8 +142,8 @@
                     <q-input v-model="form.technology" label="Tecnologia" />
                     <q-input v-model="form.stationA" label="Ganacia Estación A" />
                     <q-input v-model="form.freqTX" label="Frecuencia TX" />
-                    <q-input v-model="form.stageVisualization" label="Estación de Visualización" />
-                    <template v-if="form.stageVisualization ==='MAYORISTA' ">
+                    <q-input v-model="form.stageVisualization" label="Escenario" />
+                    <template v-if="form.stageVisualization && form.stageVisualization.toUpperCase() ==='MAYORISTA' ">
                       <q-input v-model="form.address38" label="Dirección clientes 38 Ghz" />
                     </template>
 
@@ -151,8 +154,8 @@
                     <q-input v-model="form.typePlot" label="Tipo trama" />
                     <q-input v-model="form.stationB" label="Ganancia Estación B" />
                     <q-input v-model="form.freqRX" label="Frecuencia RX" />
-                    <q-input v-model="form.typeVisualization" label="Tipo de visualización" />
-                    <template v-if="form.stageVisualization ==='MAYORISTA' ">
+                    <q-input v-model="form.typeVisualization" label="Tipo" />
+                    <template v-if="form.stageVisualization && form.stageVisualization.toUpperCase() ==='MAYORISTA' ">
                       <q-input v-model="form.services38" label="Servicios mayoristas 38Ghz" />
                       <q-input v-model="form.requestNumber" label="Número de Solicitud" />
                     </template>
@@ -277,7 +280,9 @@ export default {
         "LH",
         "PAG-FO",
         "PAG-MW",
-        "PAG-Rentado"
+        "PAG-Rentado",
+        "MW-BNL-PMP",
+        "MW-BNL-PTP"
       ]
     };
   },
