@@ -28,6 +28,14 @@
           <div class="flex">
             <q-markup-table class="q-mr-lg">
               <tbody class="tblInfo">
+                <tr v-if="link.link">
+                  <td class="text-left">Enlace</td>
+                  <td class="text-right">{{link.link}}</td>
+                </tr>
+                <tr v-if="link.instanceName">
+                  <td class="text-left">Instancia</td>
+                  <td class="text-right">{{link.instanceName}}</td>
+                </tr>
                 <tr v-if="link.distributionType">
                   <td class="text-left">Tipo de Alcance</td>
                   <td class="text-right">{{link.distributionType}}</td>
@@ -37,28 +45,24 @@
                   <td class="text-right">{{link.status}}</td>
                 </tr>
                 <tr v-if="link.media">
-                  <td class="text-left">Media</td>
+                  <td class="text-left">Medio</td>
                   <td class="text-right">{{link.media}}</td>
                 </tr>
-                <tr v-if="link.link">
-                  <td class="text-left">Enlace</td>
-                  <td class="text-right">{{link.link}}</td>
+                <tr v-if="link.mediaType">
+                  <td class="text-left">Medio Ingeniería</td>
+                  <td class="text-right">{{link.mediaType}}</td>
                 </tr>
                 <tr v-if="link.departmentCode">
                   <td class="text-left">Codigo de Departamento</td>
                   <td class="text-right">{{link.departmentCode}}</td>
                 </tr>
-                <tr v-if="link.modulation">
-                  <td class="text-left">Modulacion</td>
-                  <td class="text-right">{{link.modulation}}</td>
+                <tr v-if="link.typeVisualization">
+                  <td class="text-left">Tipo</td>
+                  <td class="text-right">{{link.typeVisualization}}</td>
                 </tr>
-                <tr v-if="link.bandWidth">
-                  <td class="text-left">Ancho de Banda</td>
-                  <td class="text-right">{{link.bandWidth}}</td>
-                </tr>
-                <tr v-if="link.bandFrequency">
-                  <td class="text-left">Frecuencia de Banda</td>
-                  <td class="text-right">{{link.bandFrequency}}</td>
+                <tr v-if="link.stageVisualization">
+                  <td class="text-left">Estación</td>
+                  <td class="text-right">{{link.stageVisualization}}</td>
                 </tr>
               </tbody>
             </q-markup-table>
@@ -85,40 +89,12 @@
                   <td class="text-right">{{link.updatedDate}}</td>
                 </tr>
                 <tr v-if="link.technology">
-                  <td class="text-left">Tecnolgía</td>
+                  <td class="text-left">Tecnología</td>
                   <td class="text-right">{{link.technology}}</td>
-                </tr>
-                <tr v-if="link.stationA">
-                  <td class="text-left">Ganancia de estación A</td>
-                  <td class="text-right">{{link.stationA}}</td>
-                </tr>
-              </tbody>
-            </q-markup-table>
-            <q-markup-table class="q-mr-lg">
-              <tbody class="tblInfo">
-                <tr v-if="link.stationB">
-                  <td class="text-left">Ganancia de estación B</td>
-                  <td class="text-right">{{link.stationB}}</td>
                 </tr>
                 <tr v-if="link.typePlot">
                   <td class="text-left">Tipo de trama</td>
                   <td class="text-right">{{link.typePlot}}</td>
-                </tr>
-                <tr v-if="link.freqTX">
-                  <td class="text-left">Frecuencia TX</td>
-                  <td class="text-right">{{link.freqTX}}</td>
-                </tr>
-                <tr v-if="link.freqRX">
-                  <td class="text-left">Frecuencia RX</td>
-                  <td class="text-right">{{link.freqRX}}</td>
-                </tr>
-                <tr v-if="link.typeVisualization">
-                  <td class="text-left">Tipo</td>
-                  <td class="text-right">{{link.typeVisualization}}</td>
-                </tr>
-                <tr v-if="link.stageVisualization">
-                  <td class="text-left">Estación</td>
-                  <td class="text-right">{{link.stageVisualization}}</td>
                 </tr>
               </tbody>
             </q-markup-table>
@@ -147,17 +123,17 @@
         <q-tab-panel name="link" style="max-height : 100%;max-width : 100%; overflow-y : auto">
           <div class="flex">
             <div class="q-mr-xl">
-              <div class="text-h4 q-mb-md">Source</div>
+              <div class="text-h4 q-mb-md">NE</div>
               <div class="flex">
                 <q-markup-table>
                   <tbody class="tblInfo">
-                  <tr v-if="link.nearEnd.code">
-                    <td class="text-left">Codigo</td>
-                    <td class="text-right">{{link.nearEnd.code}}</td>
-                  </tr>
                   <tr v-if="link.nearEnd.name">
                     <td class="text-left">Nombre</td>
                     <td class="text-right">{{link.nearEnd.name}}</td>
+                  </tr>
+                  <tr v-if="link.nearEnd.code">
+                    <td class="text-left">Codigo</td>
+                    <td class="text-right">{{link.nearEnd.code}}</td>
                   </tr>
                   <tr v-if="link.nearEnd.location.coordinates[0]">
                     <td class="text-left">Latitud</td>
@@ -167,6 +143,20 @@
                     <td class="text-left">Longitud</td>
                     <td class="text-right">{{link.nearEnd.location.coordinates[1]}}</td>
                   </tr>
+                  <tr v-if="link.modulation">
+                    <td class="text-left">Modulacion</td>
+                    <td class="text-right">{{link.modulation}}</td>
+                  </tr>
+                  <tr v-if="link.freqTX">
+                    <td class="text-left">Frecuencia TX</td>
+                    <td class="text-right">{{link.freqTX}}</td>
+                  </tr>
+                  <tr v-if="link.stationA">
+                    <td class="text-left">Ganancia de estación A</td>
+                    <td class="text-right">{{link.stationA}}</td>
+                  </tr>
+
+
                   </tbody>
                 </q-markup-table>
                 <q-markup-table>
@@ -187,22 +177,30 @@
                     <td class="text-left">Altura radiantes</td>
                     <td class="text-right">{{link.nearEnd.radiant}}</td>
                   </tr>
+                  <tr v-if="link.bandWidth">
+                    <td class="text-left">Ancho de Banda</td>
+                    <td class="text-right">{{link.bandWidth}}</td>
+                  </tr>
+                  <tr v-if="link.bandFrequency">
+                    <td class="text-left">Frecuencia de Banda</td>
+                    <td class="text-right">{{link.bandFrequency}}</td>
+                  </tr>
                   </tbody>
                 </q-markup-table>
               </div>
             </div>
             <div>
-              <div class="text-h4 q-mb-md">Sink</div>
+              <div class="text-h4 q-mb-md">FE</div>
               <div class="flex">
                 <q-markup-table>
                   <tbody class="tblInfo">
-                  <tr v-if="link.farEnd.code">
-                    <td class="text-left">Codigo</td>
-                    <td class="text-right">{{link.farEnd.code}}</td>
-                  </tr>
                   <tr v-if="link.farEnd.name">
                     <td class="text-left">Nombre</td>
                     <td class="text-right">{{link.farEnd.name}}</td>
+                  </tr>
+                  <tr v-if="link.farEnd.code">
+                    <td class="text-left">Codigo</td>
+                    <td class="text-right">{{link.farEnd.code}}</td>
                   </tr>
                   <tr v-if="link.farEnd.location.coordinates[0]">
                     <td class="text-left">Latitud</td>
@@ -212,6 +210,19 @@
                     <td class="text-left">Longitud</td>
                     <td class="text-right">{{link.farEnd.location.coordinates[1]}}</td>
                   </tr>
+                  <tr v-if="link.modulation">
+                    <td class="text-left">Modulacion</td>
+                    <td class="text-right">{{link.modulation}}</td>
+                  </tr>
+                  <tr v-if="link.freqRX">
+                    <td class="text-left">Frecuencia RX</td>
+                    <td class="text-right">{{link.freqRX}}</td>
+                  </tr>
+                  <tr v-if="link.stationB">
+                    <td class="text-left">Ganancia de estación B</td>
+                    <td class="text-right">{{link.stationB}}</td>
+                  </tr>
+
                   </tbody>
                 </q-markup-table>
                 <q-markup-table>
@@ -232,6 +243,15 @@
                     <td class="text-left">Altura radiantes</td>
                     <td class="text-right">{{link.farEnd.radiant}}</td>
                   </tr>
+                  <tr v-if="link.bandWidth">
+                    <td class="text-left">Ancho de Banda</td>
+                    <td class="text-right">{{link.bandWidth}}</td>
+                  </tr>
+                  <tr v-if="link.bandFrequency">
+                    <td class="text-left">Frecuencia de Banda</td>
+                    <td class="text-right">{{link.bandFrequency}}</td>
+                  </tr>
+
                   </tbody>
                 </q-markup-table>
               </div>

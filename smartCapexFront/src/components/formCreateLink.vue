@@ -283,7 +283,8 @@ export default {
         "PAG-FO",
         "PAG-MW",
         "PAG-Rentado",
-        "MW PTP-BNL",
+        "MW PTP-BL",
+        "MW PMP-BNL",
         "MW PTP-BNL"
       ],
       form: {

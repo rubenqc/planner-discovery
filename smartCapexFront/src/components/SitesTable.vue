@@ -275,7 +275,7 @@ export default {
             agg: row.agg || "",
             coordX: row.geometry.coordinates[0] || "",
             coordY: row.geometry.coordinates[1] || "",
-            azimuth: "-"
+            azimuth: "test"
           })
         }
       })
