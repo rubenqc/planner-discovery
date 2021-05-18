@@ -8,7 +8,8 @@ const routes = [
       { path: '/dependencies', component: () => import('pages/Dependencies.vue') },
       { path: '/sites', component: () => import('pages/Sites') },
       { path: '/routers', component: () => import('pages/Routers')},
-      { path: '/links', component: () => import('pages/Links')}
+      { path: '/links', component: () => import('pages/Links')},
+      { path: '/mayorista', component: () => import('pages/Mayoristas.vue')},
     ]
   },
   // Always leave this as last one,

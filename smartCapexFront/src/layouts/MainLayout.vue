@@ -27,9 +27,15 @@
               <q-icon name="sync_alt" />
             </q-item-section>
 
-            <q-item-section>Enlaces</q-item-section>
+            <q-item-section>Enlaces de Red</q-item-section>
           </q-item>
+          <q-item clickable v-ripple to="/mayorista" exact>
+            <q-item-section avatar>
+              <q-icon name="business" />
+            </q-item-section>
 
+            <q-item-section>Enlaces Mayoristas</q-item-section>
+          </q-item>
 <!--          <q-item clickable v-ripple to='/dependencies' exact>-->
 <!--            <q-item-section avatar>-->
 <!--              <q-icon name="star" />-->
