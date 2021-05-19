@@ -27,13 +27,13 @@
           @click="clearInputs"
           class="q-mr-md"
         />
-        <q-btn
-          color="primary"
-          :disable="loading"
-          class="q-mr-md"
-          label="Cargar Archivo Excel"
-          @click="modalFile = true"
-        />
+<!--        <q-btn-->
+<!--          color="primary"-->
+<!--          :disable="loading"-->
+<!--          class="q-mr-md"-->
+<!--          label="Cargar Archivo Excel"-->
+<!--          @click="modalFile = true"-->
+<!--        />-->
          <q-btn
             color="primary"
             :disable="loading"
@@ -436,7 +436,7 @@ export default {
       console.log("2")
       const paint = document.querySelectorAll(".paint")
       paint.forEach(p => {
-        if(p.textContent === "Mayorista"){
+        if(p.textContent.match(/_IB_/) || p.textContent.match(/_MC_/)||p.textContent.match(/_MCI_/)){
           p.parentElement.style.background="rgba(107,229,229,0.15)"
         }else{
           p.parentElement.style.background="transparent"

@@ -29,12 +29,12 @@
           class="q-mr-md"
         />
         <!--REVISAR METODO DE DESCARGA AL FINAL-->
-        <q-btn
-          color="primary"
-          :disable="loading"
-          label="Descargar data"
-          @click="download"
-        />
+<!--        <q-btn-->
+<!--          color="primary"-->
+<!--          :disable="loading"-->
+<!--          label="Descargar data"-->
+<!--          @click="download"-->
+<!--        />-->
       </template>
 
       <template v-slot:header="props">
@@ -83,7 +83,7 @@
               v-if=true
               dense
               filled
-              style="min-width : 150px"
+              style="min-width : 140px"
               v-model="body[col.name]"
               @input="updateInput($event, col.name)"
             />
@@ -185,13 +185,10 @@ export default {
       },
       typing: null,
       body: {
-        sourceSite: null,
-        sinkSite: null,
-        utilization: null,
-        media: "Todos",
-        capacity: null,
-        instanceName: null,
-        status: "Todos",
+        siteName: null,
+        coordX: null,
+        coordY: null,
+        agg: null,
       },
       loading: true,
       pagination: {
@@ -216,23 +213,18 @@ export default {
           sortable : true
         },
         {
-          name: "Coord-X",
-          label: "Coord - X",
+          name: "coordX",
+          label: "Longitud",
           field: (row) => row.coordX,
           sortable : true
         },
         {
-          name: "Coord-Y",
-          label: "Coord - Y",
+          name: "coordY",
+          label: "Latitud",
           field: (row) => row.coordY,
           sortable : true
         },
-        {
-          name: "azimuth",
-          label: "Azimuth",
-          field: (row) => row.azimuth,
-          sortable : true
-        },
+
 
       ],
       data: [],
@@ -256,33 +248,41 @@ export default {
   },
   created() {
     const body = this.bodyBuilder(this.pagination);
+    console.log("-------body inicial----------")
+    console.log(body)
     this.getData(body);
   },
   methods: {
     // obtener datos del servidor, recibe el this.body con la paginacion y el query de busqueda
-    async getData() {
+    async getData(body = {}) {
 
-      const response = await this.$axios.get(`${this.SITES_URL}/getAllSite`);
+      const response = await this.$axios.post(`${this.SITES_URL}/getAllSite`, {
+        ...body,
+      });
 
-      console.log("hace el page")
+      console.log("***** imprimiendo result de getData*********")
+      console.log(response)
 
-
+     /* this.data.splice(0, this.data.length, ...response.data.docs);*/
+      this.pagination.page = response.data.page;
+      this.pagination.rowsPerPage = response.data.limit;
+      this.pagination.rowsNumber = response.data.totalDocs;
+      this.data = []
       console.log(this.pagination)
-      response.data.forEach((row) => {
-        if(row.geometry){
+      response.data.docs.forEach((row) => {
+
           this.data.push({
             siteName: row.siteName || "",
             agg: row.agg || "",
-            coordX: row.geometry.coordinates[0] || "",
-            coordY: row.geometry.coordinates[1] || "",
-            azimuth: "test"
+            coordX: row.geometry ? row.geometry.coordinates[0] : "",
+            coordY: row.geometry ? row.geometry.coordinates[1] : "",
           })
-        }
+
       })
-      this.pagination.rowsNumber = this.data.length;
-      console.log(this.pagination)
-      console.log("termino el for each")
-      console.log(this.data[0])
+
+      console.log(this.data)
+      this.pagination.sortBy = undefined
+      this.pagination.descending = undefined
       this.loading = false;
       return "ok";
     },
@@ -298,13 +298,14 @@ export default {
 
     //Metodo que genera un objeto enviado al server
     bodyBuilder(pagination, fields) {
+      console.log("--------- Imprimiendo pagination en builder--------")
       console.log(pagination)
 
-      if(pagination.sortBy && pagination.descending === true){
+      /*if(pagination.sortBy && pagination.descending === true){
         pagination.sort = 'utilization'
       }else if(pagination.sortBy && pagination.descending === false){
         pagination.sort = '-utilization'
-      }
+      }*/
       // //----------------
       if (fields) {
         return {
@@ -348,21 +349,18 @@ export default {
     //Metodo que reinicia la tabla
     clearInputs() {
       this.body = {
-        sourceSite: null,
-        sinkSite: null,
-        utilization: null,
-        media: "Todos",
-        capacity: null,
-        instanceName: null,
-        status: "Todos",
+        siteName: null,
+        longitud: null,
+        latitud: null,
+        agregador: null,
       };
 
       this.pagination = {
         page: 1,
         rowsPerPage: 5,
         rowsNumber: 0,
-        sortBy : 'utilization',
-        descending : false
+        /*sortBy : 'utilization',
+        descending : false*/
       };
 
       const body = this.bodyBuilder(this.pagination);
@@ -432,7 +430,7 @@ export default {
       window.open(`${this.LINKS_URL}/getData`,'_blank')
     },
 
-    processUtilization(row){
+/*    processUtilization(row){
       if(row.utilizationHistory && row.utilizationHistory.length > 0){
 
         let result = "";
@@ -455,14 +453,12 @@ export default {
         return result
       }
       return ""
-    },
+    },*/
 
-    getMaxUtilizationbyMonth(history,month){
+   getMaxUtilizationbyMonth(history,month){
       const filtered = history.filter(log => moment(log.date).month() == month)
       const result = filtered.sort((a,b) => b.maxUtilization - a.maxUtilization)
-      if(result.length > 0 ){
-        return result[0].maxUtilization.toFixed(2)
-      }
+
       return ""
     }
   },
