@@ -25,29 +25,27 @@ const searchRings = async (site) => {
 const updateUtilization = async () => {
     const { Link } = await db()
     let _links = await Link.listAllLight()
-     _links = _links.slice(-9)
+     _links = _links.slice(-13)
     // console.log(_links)
     console.log('ya filtro')
 
     for (const link of _links) {
         if(link.instanceName != null){
-            const date = '2021-04-03' // moment().subtract(2, 'days').format('YYYY-MM-DD') //'2021-03-31'
+            const date = moment().subtract(2, 'days').format('YYYY-MM-DD')
             try {
                 const { Router, Idu } = await plannerDb(config)
                 let max = null
                 if(link.gestor === 'U2000-Datacom'){
-                   max = await Router.findMaxUtilizationByInstanceAndDate(
-                       link.instanceName,
-                       new Date(`2021-04-05 00:00`)
-                       // new Date(`${date} 00:00`)
+                    max = await Router.findMaxUtilizationByInstanceAndDate(
+                      link.instanceName,
+                      new Date(`${date} 00:00`)
                     )
                     console.log("AGREGANDO DESDE router",max)
 
                 }else{
                     max = await Idu.findMaxUtilizationByInstanceAndDate(
-                        link.instanceName,
-                        new Date(`2021-04-05 00:00`)
-                       //new Date(`${date} 00:00`)
+                      link.instanceName,
+                      new Date(`${date} 00:00`)
                     )
                     console.log("AGREGANDO DESDE iDU",max)
                 }
@@ -121,7 +119,7 @@ const reportOracleUtilization = async () => {
 }
 
 const updateUtilizationCRON = () => {
-    cron.schedule("52 10 * * *",updateUtilization)
+    cron.schedule("31 11 * * *",updateUtilization)
 }
 
 const getRoutersCRON = () => {

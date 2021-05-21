@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex column justify-start items-center">
-    <h1 class="h1">Lista de Enlaces (de Mayoristas)</h1>
+    <h1 class="h1">Lista de Enlaces Mayoristas</h1>
     <LinkTableMayorista />
   </q-page>
 </template>

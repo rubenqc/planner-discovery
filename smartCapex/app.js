@@ -10,8 +10,8 @@ const path = require('path')
 
 
 //INICIANDO CRON
-/*updateUtilizationCRON()
-getRoutersCRON()
+updateUtilizationCRON()
+/*getRoutersCRON()
 reloadLinksReportCRON()
 reportOracleUtilization()*/
 

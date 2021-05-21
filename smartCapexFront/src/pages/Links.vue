@@ -51,7 +51,7 @@ export default {
     async searchOptions(val){
       const response = await this.$axios
         .get(
-          `http://186.163.3.23:83/api/ingtx/sites/find/siteName/tx?term=${val}`
+          `${this.BASE_URL}api/ingtx/sites/find/siteName/tx?term=${val}`
         )
       let dataProcessed = []
       response.data.map((element) => dataProcessed.push(element["siteName"]))
@@ -79,7 +79,7 @@ export default {
     }
   },
   computed :{
-    ...mapState('links',['LINKS_URL'])
+    ...mapState('links',['BASE_URL'])
   }
 };
 </script>

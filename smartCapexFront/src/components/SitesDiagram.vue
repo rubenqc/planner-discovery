@@ -53,8 +53,15 @@
         <q-btn
           color="primary"
           @click="toggle"
+          class="q-mr-md"
           :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
           :label="$q.fullscreen.isActive ? 'Salir de FullScreen' : 'Fullscreen'"
+        />
+        <q-btn
+          color="primary"
+          :disable="loading"
+          label="Exportar"
+          @click="downloadDiagrams"
         />
       </div>
     </div>
@@ -175,24 +182,24 @@ export default {
       this.modalCharge = true
       this.loadsites = true
       fetch(`${this.LINKS_URL}/getTophBySite?site=${site}`)
-      // fetch(`${this.LINKS_URL}/getToph`)
+        // fetch(`${this.LINKS_URL}/getToph`)
         .then((res) => res.json())
         .catch((err) => console.log(err))
         .then((result) => {
           this.dataResult = result; // guardamos la información para sacar datos mas tarde
-          result.nodes = result.nodes.map((n) =>{
+          result.nodes = result.nodes.map((n) => {
             const toFeCant = result.edges.filter(edge => edge.to === n.id).length
             const fromNeCant = result.edges.filter(edge => edge.from === n.id).length
-            const {feCant,neCant} = n
+            const {feCant, neCant} = n
             // console.log(n.label, `NELOAD/FELOAD : ${fromNeCant}/${neCant} --- ${toFeCant}/${feCant}`)
             const {image, loadtype} = this.calcuteImage({
-                neLoad : fromNeCant,
-                feLoad : toFeCant,
-                feCant : feCant,
-                neCant : neCant
-              })
+              neLoad: fromNeCant,
+              feLoad: toFeCant,
+              feCant: feCant,
+              neCant: neCant
+            })
             let isAllgraphic = false
-            if(toFeCant === feCant && fromNeCant === neCant){
+            if (toFeCant === feCant && fromNeCant === neCant) {
               isAllgraphic = true
             }
             return {
@@ -205,8 +212,8 @@ export default {
           });
           // dibujamos la red
           (this.nodes = result.nodes),
-          (this.edges = result.edges),
-          (this.options = {
+            (this.edges = result.edges),
+            (this.options = {
               // physics: {
               //   forceAtlas2Based: {
               //     gravitationalConstant: -26,
@@ -219,92 +226,92 @@ export default {
               //   timestep: 0.35,
               //   stabilization: { iterations: 150 },
               // },
-              physics : false,
-              interaction : {
-                dragNodes : false,
-                hover : true
+              physics: false,
+              interaction: {
+                dragNodes: false,
+                hover: true
               },
-              edges : {
+              edges: {
                 smooth: {
                   enabled: true,
                   type: "curvedCW",
                   roundness: 0.2
                 },
                 // smooth : true,
-                arrows : 'from'
+                arrows: 'from'
               }
             });
-          setTimeout(_=>{
-            console.log(this.modalCharge,"2")
+          setTimeout(_ => {
+            console.log(this.modalCharge, "2")
             this.modalCharge = false
             this.$refs.network.focus(1)
           }, 100)
         });
     },
-    editOn(){
+    editOn() {
       this.options.interaction.dragNodes = true
       this.onEdit = true
     },
-    async savePositions(){
+    async savePositions() {
       const positions = this.$refs.network.getPositions()
       const _nodes = this.nodes.map((node) => {
         return {
-          id : node.id,
-          label : node.label,
-          x : positions[""+node.id].x,
-          y : positions[""+node.id].y
+          id: node.id,
+          label: node.label,
+          x: positions["" + node.id].x,
+          y: positions["" + node.id].y
         }
       })
       const dialog = this.$q.dialog({
         title: 'Actualizando',
         message: 'Un momento por favor',
-        ok : false
+        ok: false
       })
 
-      const response = await this.$axios.patch(`${this.LINKS_URL}/updatePositions`,{
-        nodes : _nodes
+      const response = await this.$axios.patch(`${this.LINKS_URL}/updatePositions`, {
+        nodes: _nodes
       })
-      if(response.status === 200){
+      if (response.status === 200) {
         console.log(response.data)
         this.options.interaction.dragNodes = false
         this.onEdit = false
         dialog.hide()
-      }else{
+      } else {
         console.warn(response.data)
       }
     },
-    async loadNodes(e){
-      if(e.nodes.length > 0 && !this.onEdit){
+    async loadNodes(e) {
+      if (e.nodes.length > 0 && !this.onEdit) {
         const node = this.$refs.network.getNode(e.nodes[0])
-        if(!node.isAllgraphic && node.loadtype === 'nearends'){
+        if (!node.isAllgraphic && node.loadtype === 'nearends') {
           console.log("nearEnds")
           this.modalCharge = true
           //Trayendo nearEnds
-          this.nodes.map(function(item) {
+          this.nodes.map(function (item) {
             delete item.isAllgraphic;
             delete item.shape;
             delete item.image;
             delete item.loadtype
             return item;
           });
-          const response = await this.$axios.post(`${this.LINKS_URL}/getDependecies`,{
-            nodes : this.nodes,
-            edges : this.edges,
-            site :  node.label
+          const response = await this.$axios.post(`${this.LINKS_URL}/getDependecies`, {
+            nodes: this.nodes,
+            edges: this.edges,
+            site: node.label
           })
           this.nodes = response.data.nodes.map((n) => {
             const toFeCant = response.data.edges.filter(edge => edge.to === n.id).length
             const fromNeCant = response.data.edges.filter(edge => edge.from === n.id).length
-            const {feCant,neCant} = n
+            const {feCant, neCant} = n
             console.log(n.label, `NELOAD/FELOAD : ${fromNeCant}/${neCant} --- ${toFeCant}/${feCant}`)
             const {image, loadtype} = this.calcuteImage({
-              neLoad : fromNeCant,
-              feLoad : toFeCant,
-              feCant : feCant,
-              neCant : neCant
+              neLoad: fromNeCant,
+              feLoad: toFeCant,
+              feCant: feCant,
+              neCant: neCant
             })
             let isAllgraphic = false
-            if(toFeCant === feCant && fromNeCant === neCant){
+            if (toFeCant === feCant && fromNeCant === neCant) {
               isAllgraphic = true
             }
             return {
@@ -317,41 +324,40 @@ export default {
           })
           this.edges = response.data.edges
 
-          setTimeout(_=>{
+          setTimeout(_ => {
             this.modalCharge = false
             this.$refs.network.focus(e.nodes[0])
             this.$refs.network.selectNodes([e.nodes[0]])
-          },100)
-        }
-        else if(!node.isAllgraphic && node.loadtype === 'farends'){
+          }, 100)
+        } else if (!node.isAllgraphic && node.loadtype === 'farends') {
           console.log("Farends")
           this.modalCharge = true
           //Trayendo farEnds
-          this.nodes.map(function(item) {
+          this.nodes.map(function (item) {
             delete item.isAllgraphic;
             delete item.shape;
             delete item.image;
             delete item.loadtype
             return item;
           });
-          const responseFe = await this.$axios.post(`${this.LINKS_URL}/getFarEnds`,{
-            nodes : this.nodes,
-            edges : this.edges,
-            site :  node.label
+          const responseFe = await this.$axios.post(`${this.LINKS_URL}/getFarEnds`, {
+            nodes: this.nodes,
+            edges: this.edges,
+            site: node.label
           })
           this.nodes = responseFe.data.nodes.map((n) => {
             const toFeCant = responseFe.data.edges.filter(edge => edge.to === n.id).length
             const fromNeCant = responseFe.data.edges.filter(edge => edge.from === n.id).length
-            const {feCant,neCant} = n
+            const {feCant, neCant} = n
             console.log(n.label, `NELOAD/FELOAD : ${fromNeCant}/${neCant} --- ${toFeCant}/${feCant}`)
             const {image, loadtype} = this.calcuteImage({
-              neLoad : fromNeCant,
-              feLoad : toFeCant,
-              feCant : feCant,
-              neCant : neCant
+              neLoad: fromNeCant,
+              feLoad: toFeCant,
+              feCant: feCant,
+              neCant: neCant
             })
             let isAllgraphic = false
-            if(toFeCant === feCant && fromNeCant === neCant){
+            if (toFeCant === feCant && fromNeCant === neCant) {
               isAllgraphic = true
             }
             return {
@@ -364,50 +370,49 @@ export default {
           })
           this.edges = responseFe.data.edges
 
-          setTimeout(_=>{
+          setTimeout(_ => {
             this.modalCharge = false
             this.$refs.network.focus(e.nodes[0])
             this.$refs.network.selectNodes([e.nodes[0]])
-          },100)
-        }
-        else if(!node.isAllgraphic && node.loadtype === 'both'){
+          }, 100)
+        } else if (!node.isAllgraphic && node.loadtype === 'both') {
           console.log("Ambos")
           this.modalCharge = true
           //Trayendo nearEnds
-          this.nodes.map(function(item) {
+          this.nodes.map(function (item) {
             delete item.isAllgraphic;
             delete item.shape;
             delete item.image;
             delete item.loadtype
             return item;
           });
-          const response = await this.$axios.post(`${this.LINKS_URL}/getDependecies`,{
-            nodes : this.nodes,
-            edges : this.edges,
-            site :  node.label
+          const response = await this.$axios.post(`${this.LINKS_URL}/getDependecies`, {
+            nodes: this.nodes,
+            edges: this.edges,
+            site: node.label
           })
           this.nodes = response.data.nodes
           this.edges = response.data.edges
 
           //Trayendo farEnds
-          const responseFe = await this.$axios.post(`${this.LINKS_URL}/getFarEnds`,{
-            nodes : this.nodes,
-            edges : this.edges,
-            site :  node.label
+          const responseFe = await this.$axios.post(`${this.LINKS_URL}/getFarEnds`, {
+            nodes: this.nodes,
+            edges: this.edges,
+            site: node.label
           })
           this.nodes = responseFe.data.nodes.map((n) => {
             const toFeCant = responseFe.data.edges.filter(edge => edge.to === n.id).length
             const fromNeCant = responseFe.data.edges.filter(edge => edge.from === n.id).length
-            const {feCant,neCant} = n
+            const {feCant, neCant} = n
             console.log(n.label, `NELOAD/FELOAD : ${fromNeCant}/${neCant} --- ${toFeCant}/${feCant}`)
             const {image, loadtype} = this.calcuteImage({
-              neLoad : fromNeCant,
-              feLoad : toFeCant,
-              feCant : feCant,
-              neCant : neCant
+              neLoad: fromNeCant,
+              feLoad: toFeCant,
+              feCant: feCant,
+              neCant: neCant
             })
             let isAllgraphic = false
-            if(toFeCant === feCant && fromNeCant === neCant){
+            if (toFeCant === feCant && fromNeCant === neCant) {
               isAllgraphic = true
             }
             return {
@@ -420,44 +425,41 @@ export default {
           })
           this.edges = responseFe.data.edges
 
-          setTimeout(_=>{
+          setTimeout(_ => {
             this.modalCharge = false
             this.$refs.network.focus(e.nodes[0])
             this.$refs.network.selectNodes([e.nodes[0]])
-          },100)
+          }, 100)
         }
       }
     },
-    calcuteImage({neLoad,feLoad,feCant,neCant}){
-      if(neLoad === neCant && feLoad !== feCant){
+    calcuteImage({neLoad, feLoad, feCant, neCant}) {
+      if (neLoad === neCant && feLoad !== feCant) {
         return {
-          image : require('assets/network.svg'),
-          loadtype : 'farends'
+          image: require('assets/network.svg'),
+          loadtype: 'farends'
         }
-      }
-      else if(neLoad !== neCant && feLoad === feCant){
+      } else if (neLoad !== neCant && feLoad === feCant) {
         return {
-          image : require('assets/n.png'),
-          loadtype : 'nearends'
+          image: require('assets/n.png'),
+          loadtype: 'nearends'
         }
-      }
-      else if(neLoad !== neCant && feLoad !== feCant){
+      } else if (neLoad !== neCant && feLoad !== feCant) {
         return {
-          image : require('assets/fn.png'),
-          loadtype : 'both'
+          image: require('assets/fn.png'),
+          loadtype: 'both'
         }
-      }
-      else if(neLoad === neCant && feLoad === feCant){
+      } else if (neLoad === neCant && feLoad === feCant) {
         return {
-          image : undefined,
-          loadtype : undefined
+          image: undefined,
+          loadtype: undefined
         }
       }
     },
-    onReset(){
+    onReset() {
       this.$emit('reset')
     },
-    toggle (e) {
+    toggle(e) {
       // const target = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
       this.$q.fullscreen.toggle(this.$refs.boxMain)
         .then(() => {
@@ -469,42 +471,67 @@ export default {
           // console.error(err)
         })
     },
-    onHover(e){
+    onHover(e) {
       const node = this.$refs.network.getNode(e.node)
-      if(node.dataRouter){
+      if (node.dataRouter) {
         this.dataRouter = {
           ...node.dataRouter,
-          site : node.label
+          site: node.label
         }
         this.seamless = true
       }
     },
-    onBlur(e){
+    onBlur(e) {
       const node = this.$refs.network.getNode(e.node)
-      if(node.dataRouter){
+      if (node.dataRouter) {
         this.seamless = false
       }
-    }
-  },
-  computed: {
-    ...mapState("links", ["LINKS_URL"]),
-  },
-  watch: {
-    site(val){
-      if(val){
-        const search = this.nodes.filter(node => node.label === val)
-        if(search.length > 0){
-           this.$refs.network.focus(search[0].id);
-           this.$refs.network.selectNodes([search[0].id])
-        } else{
-          this.draw(val);
-        }
-      }
     },
-    '$q.fullscreen.isActive' (val) {
-      this.fullscreen = val
+
+    //Method to allow download information showed in picture of diagrams
+    async downloadDiagrams() {
+
+      if (this.edges && this.edges.length > 0) {
+        fetch(`${this.LINKS_URL}/getdataDiagram?edges=[${this.edges.map(e => e._id).join(',')}]`)
+          .then(resp => resp.blob())
+          .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            // the filename you want
+            const date = new Date(new Date().toString().split('GMT')[0]+' UTC').toISOString().split('.')[0].replace('T',' ')
+            a.download = `report_links_${date}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+
+          })
+          .catch(() => alert('oh no!'));
+      } else {
+        alert("Primero realice una busqueda")
+      }
     }
-  }
+  },
+computed: {
+...mapState("links", ["LINKS_URL"]),
+},
+watch: {
+site(val){
+if(val){
+ const search = this.nodes.filter(node => node.label === val)
+ if(search.length > 0){
+    this.$refs.network.focus(search[0].id);
+    this.$refs.network.selectNodes([search[0].id])
+ } else{
+   this.draw(val);
+ }
+}
+},
+'$q.fullscreen.isActive' (val) {
+this.fullscreen = val
+}
+}
 };
 </script>
 

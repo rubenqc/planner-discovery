@@ -24,7 +24,7 @@
         <q-list padding>
           <q-item clickable v-ripple to="/" exact>
             <q-item-section avatar>
-              <q-icon name="sync_alt" />
+              <q-icon name="settings_ethernet" />
             </q-item-section>
 
             <q-item-section>Enlaces de Red</q-item-section>

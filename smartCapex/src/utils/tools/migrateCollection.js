@@ -26,8 +26,9 @@ MongoClient.connect('mongodb://10.30.17.81:27017',
         {_id: d._id},
         {$set:
             {
-              nearEnd: d.nearEnd,
-              farEnd: d.farEnd
+              utilizationHistory: d.utilizationHistory
+              // nearEnd: d.nearEnd,
+              // farEnd: d.farEnd
             }
         }
       )

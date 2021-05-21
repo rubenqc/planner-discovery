@@ -31,7 +31,7 @@
          <q-btn
             color="primary"
             :disable="loading"
-            label="Descargar data"
+            label="Exportar"
             @click="download"
           />
       </template>
@@ -44,7 +44,7 @@
       </template>
 
       <template v-slot:body="props">
-        <q-tr :props="props">
+        <q-tr :props="props" class="paint">
           <q-td auto-width>
             <q-btn
               size="sm"
@@ -73,7 +73,7 @@
               @click="openDeleteModal(props.row)"
             />
           </q-td>
-          <q-td  v-for="col in props.cols" :key="col.name" class="paint" :props="props">{{ col.value }}</q-td>
+          <q-td  v-for="col in props.cols" :key="col.name" :class="col.name" :props="props">{{ col.value }}</q-td>
         </q-tr>
         <q-tr v-show="props.expand" :props="props" class="col-">
           <q-td colspan="100%" style="padding-left : 0">
@@ -427,16 +427,31 @@ export default {
     },
 
     paintMayorista(){
-      console.log("2")
-      const paint = document.querySelectorAll(".paint")
-      paint.forEach(p => {
-        if(p.textContent.match(/_IB_/) || p.textContent.match(/_MC_/)||p.textContent.match(/_MCI_/)){
-          p.parentElement.style.background="rgba(107,229,229,0.15)"
-        }else{
-          p.parentElement.style.background="transparent"
-        }
 
-      })
+      let paint1 = document.querySelectorAll(".sinkSite")
+      let paint2 = document.querySelectorAll(".sourceSite")
+      const paintSink = [...paint1]
+      const paintSource = [...paint2]
+      const len = paintSink.length
+      let i = 0
+      while(i<len){
+        if(/_IB_/.test(paintSink[i].textContent) ||
+          /_MC_/.test(paintSink[i].textContent)||
+          /_MCI_/.test(paintSink[i].textContent)){
+          paintSink[i].parentElement.style.background="rgba(107,229,229,0.15)"
+        }else if(/_IB_/.test(paintSource[i].textContent) ||
+          /_MC_/.test(paintSource[i].textContent)||
+          /_MCI_/.test(paintSource[i].textContent)){
+          paintSource[i].parentElement.style.background="rgba(107,229,229,0.15)"
+        }else{
+          paintSink[i].parentElement.style.background="transparent"
+        }
+        i++
+      }
+
+
+
+
     },
 
     updateSelectStatus(value) {
@@ -549,10 +564,25 @@ export default {
     },
 
     async download(){
-      /*const response = await this.$axios.get(`${this.LINKS_URL}/getdata`);
-      console.log(response)
-      return response*/
-      window.open(`${this.LINKS_URL}/getData`,'_blank')
+
+      this.loading = true
+        fetch(`${this.LINKS_URL}/getData`)
+          .then(resp => resp.blob())
+          .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            const date = new Date(new Date().toString().split('GMT')[0]+' UTC').toISOString().split('.')[0].replace('T',' ')
+            // the filename you want
+            a.download = `report_links_general_${date}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            this.loading = false
+          })
+
+
     },
 
     processUtilization(row){
@@ -593,20 +623,7 @@ export default {
     ...mapState("links", ["LINKS_URL"]),
   },
 };
-/*console.log("1")
-function  paintMayorista(){
-  console.log("2")
-  const paint = document.querySelectorAll(".paint")
-  paint.forEach(p => {
-    if(p.textContent === "Mayorista"){
-      p.parentElement.style.background="rgba(107,229,229,0.32)"
-    }else{
-      p.parentElement.style.background="transparent"
-    }
 
-  })
-}*/
-//setInterval(() => paintMayorista(), 1000)
 </script>
 
 <style lang="sass">
