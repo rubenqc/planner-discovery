@@ -20,21 +20,18 @@ MongoClient.connect('mongodb://10.30.17.81:27017',
        (d) => {
          db2.collection('links_Services').insertOne(d) });*/
 
-  dataLink = await  db.collection('links').find({})
-    .forEach((d) =>
-      db2.collection('links_services').updateOne(
-        {_id: d._id},
-        {$set:
-            {
-              utilizationHistory: d.utilizationHistory
-              // nearEnd: d.nearEnd,
-              // farEnd: d.farEnd
-            }
-        }
-      )
-  )
+    console.log('empezamos la transferencia');
+    dataLink = await  db.collection('links').find({})
+      .forEach((d) =>
+        db2.collection('links_services')
+          .updateOne({
+            _id: d._id
+          },{
+            $set: { "utilizationHistory": d.utilizationHistory },
+          })
+    )
 
-    console.log('terminamos el update');
+    console.log('terminamos la transferencia');
   })
 
 

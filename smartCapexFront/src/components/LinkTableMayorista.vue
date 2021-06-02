@@ -581,13 +581,7 @@ export default {
       if(row.utilizationHistory && row.utilizationHistory.length > 0){
 
         let result = "";
-        // const lastFourLogs = row.utilizationHistory.slice(-4)
-        // console.log(lastFourLogs)
-        // lastFourLogs.forEach((log) => {
-        //   result += `${log.maxUtilization.toFixed(2)}/`
-        // })
-        // result = result.slice(0, -1)
-        // return result
+
         const month = [
           moment().month(),
           moment().subtract(1,'months') .month(),
