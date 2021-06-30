@@ -9,7 +9,9 @@ const routes = [
       { path: '/sites', component: () => import('pages/Sites') },
       { path: '/routers', component: () => import('pages/Routers')},
       { path: '/links', component: () => import('pages/Links')},
-      { path: '/mayorista', component: () => import('pages/Mayoristas.vue')},
+      { path: 'mayoristas', component: () => import('pages/Mayoristas')},
+      { path: 'macros', component: () => import('pages/Macros')},
+      { path: 'nomacros', component: () => import('pages/Nomacros')}
     ]
   },
   // Always leave this as last one,

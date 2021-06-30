@@ -29,20 +29,28 @@
 
             <q-item-section>Enlaces de Red</q-item-section>
           </q-item>
-          <q-item clickable v-ripple to="/mayorista" exact>
+          <q-item clickable v-ripple to="/macros" exact>
+            <q-item-section avatar>
+              <q-icon name="corporate_fare" />
+            </q-item-section>
+
+            <q-item-section>Enlaces Macros</q-item-section>
+          </q-item>
+          <q-item clickable v-ripple to="nomacros" exact>
+            <q-item-section avatar>
+              <q-icon name="house_siding" />
+            </q-item-section>
+
+            <q-item-section>Enlaces No Macros</q-item-section>
+          </q-item>
+          <q-item clickable v-ripple to="/mayoristas" exact>
             <q-item-section avatar>
               <q-icon name="business" />
             </q-item-section>
 
             <q-item-section>Enlaces Mayoristas</q-item-section>
           </q-item>
-<!--          <q-item clickable v-ripple to='/dependencies' exact>-->
-<!--            <q-item-section avatar>-->
-<!--              <q-icon name="star" />-->
-<!--            </q-item-section>-->
 
-<!--            <q-item-section>Dependecias</q-item-section>-->
-<!--          </q-item>-->
 
           <q-item clickable v-ripple to='/links' exact>
             <q-item-section avatar>

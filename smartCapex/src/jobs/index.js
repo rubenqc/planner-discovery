@@ -25,7 +25,7 @@ const searchRings = async (site) => {
 const updateUtilization = async () => {
     const { Link } = await db()
     let _links = await Link.listAllLight()
-     _links = _links.slice(-13)
+
     // console.log(_links)
     console.log('ya filtro')
 
@@ -119,7 +119,7 @@ const reportOracleUtilization = async () => {
 }
 
 const updateUtilizationCRON = () => {
-    cron.schedule("31 11 * * *",updateUtilization)
+    cron.schedule("00 01 * * *",updateUtilization)
 }
 
 const getRoutersCRON = () => {

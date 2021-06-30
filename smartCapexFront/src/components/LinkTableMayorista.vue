@@ -230,7 +230,7 @@ import FormCreate from "./formCreateLink";
 import FormEdit from "./formEditLink";
 import DetailLink from "./DetailLink";
 export default {
-  name: "MainTableMayorista",
+  name: "LinkTableMayorista",
   components: {
     FormCreate,
     DetailLink,
